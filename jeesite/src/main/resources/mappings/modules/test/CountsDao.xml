@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.test.dao.CountsDao">
+    
+	<sql id="countsColumns">
+		a.id AS "id",
+		a.siteid AS "siteid",
+		a.ip AS "ip",
+		a.time AS "time",
+		a.url AS "url",
+		a.x_real_ip AS "xRealIp",
+		a.user_agent AS "userAgent"
+	</sql>
+	
+	<sql id="countsJoins">
+	</sql>
+    
+	<select id="get" resultType="Counts">
+		SELECT 
+			<include refid="countsColumns"/>
+		FROM t_d_counts a
+		<include refid="countsJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Counts">
+		SELECT 
+			<include refid="countsColumns"/>
+		FROM t_d_counts a
+		<include refid="countsJoins"/>
+		<where>
+			
+			<if test="id != null and id != ''">
+				AND a.id LIKE 
+					<if test="dbName == 'oracle'">'%'||#{id}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{id}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{id},'%')</if>
+			</if>
+			<if test="siteid != null and siteid != ''">
+				AND a.siteid LIKE 
+					<if test="dbName == 'oracle'">'%'||#{siteid}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{siteid}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{siteid},'%')</if>
+			</if>
+			<if test="ip != null and ip != ''">
+				AND a.ip LIKE 
+					<if test="dbName == 'oracle'">'%'||#{ip}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{ip}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{ip},'%')</if>
+			</if>
+			<if test="beginTime != null and endTime != null and beginTime != '' and endTime != ''">
+				AND a.time BETWEEN #{beginTime} AND #{endTime}
+			</if>
+			<if test="url != null and url != ''">
+				AND a.url LIKE 
+					<if test="dbName == 'oracle'">'%'||#{url}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{url}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{url},'%')</if>
+			</if>
+			<if test="xRealIp != null and xRealIp != ''">
+				AND a.x_real_ip LIKE 
+					<if test="dbName == 'oracle'">'%'||#{xRealIp}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{xRealIp}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{xRealIp},'%')</if>
+			</if>
+			<if test="userAgent != null and userAgent != ''">
+				AND a.user_agent LIKE 
+					<if test="dbName == 'oracle'">'%'||#{userAgent}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{userAgent}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{userAgent},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Counts">
+		SELECT 
+			<include refid="countsColumns"/>
+		FROM t_d_counts a
+		<include refid="countsJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO t_d_counts(
+			id,
+			siteid,
+			ip,
+			time,
+			url,
+			x_real_ip,
+			user_agent
+		) VALUES (
+			#{id},
+			#{siteid},
+			#{ip},
+			#{time},
+			#{url},
+			#{xRealIp},
+			#{userAgent}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE t_d_counts SET 	
+			id = #{id},
+			siteid = #{siteid},
+			ip = #{ip},
+			time = #{time},
+			url = #{url},
+			x_real_ip = #{xRealIp},
+			user_agent = #{userAgent}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM t_d_counts
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
