@@ -54,7 +54,6 @@
 			<li><label>归属部门：</label><sys:treeselect id="office" name="office.id" value="${user.office.id}" labelName="office.name" labelValue="${user.office.name}" 
 				title="部门" url="/sys/office/treeData?type=2" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/></li>
 			<li><label>姓&nbsp;&nbsp;&nbsp;名：</label><form:input path="name" htmlEscape="false" maxlength="50" class="input-medium"/></li>
-			<li><label>学&nbsp;&nbsp;&nbsp;历：</label><form:input path="qualification" htmlEscape="false" maxlength="50" class="input-medium"/></li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" onclick="return page();"/>
 				<input id="btnExport" class="btn btn-primary" type="button" value="导出"/>
 				<input id="btnImport" class="btn btn-primary" type="button" value="导入"/></li>

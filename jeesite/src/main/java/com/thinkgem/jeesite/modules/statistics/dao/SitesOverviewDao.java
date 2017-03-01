@@ -19,7 +19,7 @@ import com.thinkgem.jeesite.modules.statistics.entity.SitesOverview;
  */
 @MyBatisDao
 public interface SitesOverviewDao extends CrudDao<SitesOverview> {
-	public List<Map<String, String>> indexCount(@Param(value="currentDate") String currentDate, @Param(value="lastDate") String lastDate);
+	public List<Map<String, String>> indexCount(@Param(value = "currentDate") String currentDate, @Param(value = "lastDate") String lastDate);
 	public List<Map<String, String>> indexCount2();
 	public List<Map<String, String>> indexCount3();
 }

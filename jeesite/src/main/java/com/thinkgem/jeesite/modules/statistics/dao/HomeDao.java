@@ -19,5 +19,5 @@ import com.thinkgem.jeesite.modules.statistics.entity.Home;
  */
 @MyBatisDao
 public interface HomeDao extends CrudDao<Home> {
-	public List<Map<String, String>> indexHomepage(@Param(value="currentDate") String currentDate, @Param(value="lastDate") String lastDate);
+	public List<Map<String, String>> indexHomepage(@Param(value = "currentDate") String currentDate, @Param(value = "lastDate") String lastDate);
 }

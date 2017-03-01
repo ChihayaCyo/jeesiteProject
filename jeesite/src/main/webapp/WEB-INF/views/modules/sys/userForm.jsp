@@ -76,13 +76,6 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">学历:</label>
-			<div class="controls">
-				<form:input path="qualification" htmlEscape="false" maxlength="50" class="required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
-		<div class="control-group">
 			<label class="control-label">登录名:</label>
 			<div class="controls">
 				<input id="oldLoginName" name="oldLoginName" type="hidden" value="${user.loginName}">

@@ -281,7 +281,6 @@ public class UserController extends BaseController {
 				return "modules/sys/userInfo";
 			}
 			currentUser.setEmail(user.getEmail());
-			currentUser.setQualification(user.getQualification());
 			currentUser.setPhone(user.getPhone());
 			currentUser.setMobile(user.getMobile());
 			currentUser.setRemarks(user.getRemarks());

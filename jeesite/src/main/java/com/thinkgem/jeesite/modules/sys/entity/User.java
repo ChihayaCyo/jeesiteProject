@@ -35,7 +35,6 @@ public class User extends DataEntity<User> {
 	private String password;// 密码
 	private String no;		// 工号
 	private String name;	// 姓名
-	private String qualification;//学历
 	private String email;	// 邮箱
 	private String phone;	// 电话
 	private String mobile;	// 手机
@@ -158,16 +157,6 @@ public class User extends DataEntity<User> {
 		this.name = name;
 	}
 
-	@Length(min=0, max=200, message="学历长度必须介于 1 和 200 之间")
-	@ExcelField(title="学历", align=1, sort=50)
-	public String getQualification() {
-		return qualification;
-	}
-
-	public void setQualification(String qualification) {
-		this.qualification = qualification;
-	}
-	
 	@Email(message="邮箱格式不正确")
 	@Length(min=0, max=200, message="邮箱长度必须介于 1 和 200 之间")
 	@ExcelField(title="邮箱", align=1, sort=50)
@@ -184,11 +173,10 @@ public class User extends DataEntity<User> {
 	public String getPhone() {
 		return phone;
 	}
-	
+
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-
 
 	@Length(min=0, max=200, message="手机长度必须介于 1 和 200 之间")
 	@ExcelField(title="手机", align=2, sort=70)

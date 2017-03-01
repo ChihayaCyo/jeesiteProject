@@ -66,7 +66,6 @@
     	a.password,
     	a.no,
 		a.name,
-		a.qualification,
 		a.email,
 		a.phone,
 		a.mobile,
@@ -146,16 +145,6 @@
 		WHERE a.login_name = #{loginName} AND a.del_flag = #{DEL_FLAG_NORMAL}
 	</select>
 	
-	<select id="getByQualification" resultType="User" parameterType="User">
-		SELECT
-			<include refid="userColumns"/><!-- ,
-			ro.office_id AS "roleList.officeList.id" -->
-		FROM sys_user a
-		<include refid="userJoins"/><!-- 
-		LEFT JOIN sys_role_office ro ON ro.role_id = r.id -->
-		WHERE a.qualification = #{qualification} AND a.del_flag = #{DEL_FLAG_NORMAL}
-	</select>
-	
 	<!-- 分页查询用户信息 -->
 	<select id="findList" resultType="User">
 		SELECT
@@ -193,12 +182,6 @@
 					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
 					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
 					<if test="dbName == 'mysql'">CONCAT('%', #{name}, '%')</if>
-		</if>
-		<if test="qualification != null and qualification != ''">
-			AND a.qualification like 
-					<if test="dbName == 'oracle'">'%'||#{qualification}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{qualification}+'%'</if>
-					<if test="dbName == 'mysql'">CONCAT('%', #{qualification}, '%')</if>
 		</if>
 		<!-- 数据范围过滤 -->
 		${sqlMap.dsf}
@@ -250,7 +233,6 @@
 			password, 
 			no, 
 			name, 
-			qualification,
 			email, 
 			phone, 
 			mobile, 
@@ -271,7 +253,6 @@
 			#{password}, 
 			#{no}, 
 			#{name}, 
-			#{qualification}, 
 			#{email}, 
 			#{phone}, 
 			#{mobile}, 
@@ -296,7 +277,6 @@
 			password = #{password}, 
 			no = #{no}, 
 			name = #{name}, 
-			qualification = #{qualification}, 
 			email = #{email}, 
 			phone = #{phone}, 
 			mobile = #{mobile}, 

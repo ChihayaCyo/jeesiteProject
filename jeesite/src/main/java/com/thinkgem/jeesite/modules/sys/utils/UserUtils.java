@@ -42,9 +42,9 @@ public class UserUtils {
 	public static final String USER_CACHE = "userCache";
 	public static final String USER_CACHE_ID_ = "id_";
 	public static final String USER_CACHE_LOGIN_NAME_ = "ln";
-	public static final String USER_CACHE_qualification_ = "qu";
 	public static final String USER_CACHE_LIST_BY_OFFICE_ID_ = "oid_";
-
+	
+	public static final String CACHE_AUTH_INFO = "authInfo";
 	public static final String CACHE_ROLE_LIST = "roleList";
 	public static final String CACHE_MENU_LIST = "menuList";
 	public static final String CACHE_AREA_LIST = "areaList";
@@ -89,24 +89,11 @@ public class UserUtils {
 		return user;
 	}
 	
-	public static User getByQualification(String qualification){
-		User user = (User)CacheUtils.get(USER_CACHE, USER_CACHE_qualification_ + qualification);
-		if (user == null){
-			user = userDao.getByQualification(new User(null, qualification));
-			if (user == null){
-				return null;
-			}
-			user.setRoleList(roleDao.findList(new Role(user)));
-			CacheUtils.put(USER_CACHE, USER_CACHE_ID_ + user.getId(), user);
-			CacheUtils.put(USER_CACHE, USER_CACHE_qualification_ + user.getQualification(), user);
-		}
-		return user;
-	}
-	
 	/**
 	 * 清除当前用户缓存
 	 */
 	public static void clearCache(){
+		removeCache(CACHE_AUTH_INFO);
 		removeCache(CACHE_ROLE_LIST);
 		removeCache(CACHE_MENU_LIST);
 		removeCache(CACHE_AREA_LIST);
