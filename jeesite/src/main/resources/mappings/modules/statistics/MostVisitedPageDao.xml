@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.statistics.dao.MostVisitedPageDao">
+
+
+	<!-- TOP10 入口页面 -->
+	<select id="topTenPage" resultType="hashmap">
+		SELECT url, count(*) num
+		FROM statistics
+		WHERE site_id = #{siteId}
+		GROUP BY url
+		ORDER BY num DESC
+		LIMIT 10
+	</select>
+	
+	
+	
+	
+	
+</mapper>

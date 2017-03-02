@@ -3,14 +3,11 @@
  */
 package com.thinkgem.jeesite.modules.statistics.dao;
 
-import java.util.List;
-import java.util.Map;
-
+import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import org.apache.ibatis.annotations.Param;
 
-import com.thinkgem.jeesite.common.persistence.CrudDao;
-import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-import com.thinkgem.jeesite.modules.statistics.entity.SitesOverview;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 网站概述DAO接口
@@ -18,8 +15,10 @@ import com.thinkgem.jeesite.modules.statistics.entity.SitesOverview;
  * @version 2017-01-17
  */
 @MyBatisDao
-public interface SitesOverviewDao extends CrudDao<SitesOverview> {
-	public List<Map<String, String>> indexCount(@Param(value = "currentDate") String currentDate, @Param(value = "lastDate") String lastDate);
+public interface SitesOverviewDao{
+
 	public List<Map<String, String>> indexCount2();
-	public List<Map<String, String>> indexCount3();
+
+	public List<Map<String, String>> siteDetails(@Param(value = "siteId") String siteId, @Param(value = "currentDate") String currentDate);
+
 }

@@ -1,109 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thinkgem.jeesite.modules.statistics.dao.HomeDao">
-    
-	<sql id="homeColumns">
-		a.id AS "id",
-		a.name AS "name"
-	</sql>
-	
-	<sql id="homeJoins">
-	</sql>
-    
-	<select id="get" resultType="Home">
-		SELECT 
-			<include refid="homeColumns"/>
-		FROM home a
-		<include refid="homeJoins"/>
-		WHERE a.id = #{id}
-	</select>
-	
-	<select id="findList" resultType="Home">
-		SELECT 
-			<include refid="homeColumns"/>
-		FROM home a
-		<include refid="homeJoins"/>
-		<where>
-			
-			<if test="name != null and name != ''">
-				AND a.name LIKE 
-					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
-			</if>
-		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-			</otherwise>
-		</choose>
-	</select>
-	
-	<select id="findAllList" resultType="Home">
-		SELECT 
-			<include refid="homeColumns"/>
-		FROM home a
-		<include refid="homeJoins"/>
-		<where>
-			
-		</where>		
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-			</otherwise>
-		</choose>
-	</select>
-	
-	<insert id="insert">
-		INSERT INTO home(
-			id,
-			name
-		) VALUES (
-			#{id},
-			#{name}
-		)
-	</insert>
-	
-	<update id="update">
-		UPDATE home SET 	
-			name = #{name}
-		WHERE id = #{id}
-	</update>
-	
-	<update id="delete">
-		DELETE FROM home
-		WHERE id = #{id}
-	</update>
-	
-	
-	
-	<select id="indexHomepage" resultType="hashmap">	
-		select 
-		  t1.name,t1.domain,
-		  IFNULL(clicked, 0)    clicked,
-		  IFNULL(ip,0)    ip,
-		  IFNULL(visitor,0)    visitor,
-		  IFNULL(clicked2, 0)    clicked2,
-		  IFNULL(ip2,0)    ip2,
-		  IFNULL(visitor2,0)    visitor2
-		from 
-		(SELECT b.name,b.domain, COUNT(1) clicked,COUNT(DISTINCT a.ip) ip,COUNT(DISTINCT a.sessionid) visitor
-		FROM t_d_counts a ,t_d_sites b
-		WHERE TIME > #{currentDate}
-		AND a.siteid=b.id
-		GROUP BY b.name) t1
-		left join
-		(SELECT b.name, COUNT(1) clicked2,COUNT(DISTINCT a.ip) ip2,COUNT(DISTINCT a.sessionid) visitor2
-		FROM t_d_counts a ,t_d_sites b
-		WHERE TIME >  #{lastDate}
-		AND TIME &lt; #{currentDate}
-		AND a.siteid=b.id
-		GROUP BY b.name)  t2
-		on t1.name=t2.name
+
+	<select id="homepageList" resultType="hashmap">
+		SELECT a.site_id, a.url, pageviews1, ip1, pageviews2, ip2
+		FROM
+		(SELECT site_id, url, count(*) pageviews1, count(DISTINCT ip) ip1
+		FROM statistics
+		WHERE time >  DATE_SUB(#{currentDate},INTERVAL 1 DAY)
+		AND time <![CDATA[ < ]]> #{currentDate}
+		GROUP BY site_id) a
+		LEFT JOIN
+		(SELECT site_id, url, count(*) pageviews2, count(DISTINCT ip) ip2
+		FROM statistics
+		WHERE time >  DATE_SUB(#{currentDate},INTERVAL 2 DAY)
+		AND time <![CDATA[ < ]]> DATE_SUB(#{currentDate},INTERVAL 1 DAY)
+		GROUP BY site_id) b
+		ON a.site_id=b.site_id
 	</select>
 	
 	

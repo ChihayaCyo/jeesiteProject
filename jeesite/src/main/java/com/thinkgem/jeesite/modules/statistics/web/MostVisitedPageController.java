@@ -22,8 +22,8 @@ import java.util.Map;
  * @version 2017-01-17
  */
 @Controller
-@RequestMapping(value = "${adminPath}/statistics/sitesOverview")
-public class SitesOverviewController{
+@RequestMapping(value = "${adminPath}/statistics/mostVisitedPage")
+public class MostVisitedPageController{
 
 	@Autowired
 	private SitesOverviewService sitesOverviewService;
@@ -31,15 +31,15 @@ public class SitesOverviewController{
 	@Autowired
 	private MostVisitedPageService mostVisitedPageService;
 
-	@RequiresPermissions("statistics:sitesOverview:index")
-	@RequestMapping(value = {"/index/{siteId}", ""})
+	@RequiresPermissions("statistics:mostVisitedPage:index")
+	@RequestMapping(value = {"index/{siteId}", ""})
 	public String index(Model model, @PathVariable String siteId) {
 		List<Map<String, String>> list = sitesOverviewService.siteDetails(siteId);
 		model.addAttribute("list", list);
 		
-		List<Map<String, String>> list2 = mostVisitedPageService.topTenPage(siteId);
-		model.addAttribute("list2", list2);
+		List<Map<String, String>> topTenPageList = mostVisitedPageService.topTenPage(siteId);
+		model.addAttribute("topTenPageList", topTenPageList);
 		
-		return "modules/statistics/sitesOverview";
+		return "modules/statistics/mostVisitedPage";
 	}
 }

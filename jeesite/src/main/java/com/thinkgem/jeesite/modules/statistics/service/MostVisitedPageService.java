@@ -3,7 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.statistics.service;
 
-import com.thinkgem.jeesite.modules.statistics.dao.SitesOverviewDao;
+import com.thinkgem.jeesite.modules.statistics.dao.MostVisitedPageDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,17 +18,13 @@ import java.util.Map;
  */
 @Service
 @Transactional(readOnly = true)
-public class SitesOverviewService{
+public class MostVisitedPageService{
 
 	@Autowired
-	SitesOverviewDao sitesOverviewDao;
+	MostVisitedPageDao mostVisitedPageDao;
 
-	public List<Map<String, String>> indexCount2() {
-		return sitesOverviewDao.indexCount2();
-	}
-
-	public List<Map<String, String>> siteDetails(String siteId) {
-		return sitesOverviewDao.siteDetails(siteId,"2016-11-19 00:00:00");
+	public List<Map<String, String>> topTenPage(String siteId) {
+		return mostVisitedPageDao.topTenPage(siteId);
 	}
 
 	

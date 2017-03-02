@@ -6,12 +6,10 @@ package com.thinkgem.jeesite.modules.statistics.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.service.CrudService;
-import com.thinkgem.jeesite.modules.statistics.entity.Home;
 import com.thinkgem.jeesite.modules.statistics.dao.HomeDao;
 
 /**
@@ -21,32 +19,13 @@ import com.thinkgem.jeesite.modules.statistics.dao.HomeDao;
  */
 @Service
 @Transactional(readOnly = true)
-public class HomeService extends CrudService<HomeDao, Home> {
+public class HomeService{
 
-	public Home get(String id) {
-		return super.get(id);
-	}
+	@Autowired
+	HomeDao homeDao;
 	
-	public List<Home> findList(Home home) {
-		return super.findList(home);
-	}
-	
-	public Page<Home> findPage(Page<Home> page, Home home) {
-		return super.findPage(page, home);
-	}
-	
-	@Transactional(readOnly = false)
-	public void save(Home home) {
-		super.save(home);
-	}
-	
-	@Transactional(readOnly = false)
-	public void delete(Home home) {
-		super.delete(home);
-	}
-	
-	public List<Map<String, String>> indexHomepage() {
-		return dao.indexHomepage("2016/11/05 00:00:00","2016/11/04 00:00:00");
+	public List<Map<String, String>> homepageList() {
+		return homeDao.homepageList("2016-11-19 00:00:00");
 	}
 	
 }
