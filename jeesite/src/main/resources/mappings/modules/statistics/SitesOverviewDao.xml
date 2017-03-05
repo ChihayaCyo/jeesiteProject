@@ -4,15 +4,6 @@
 
 
 	<!-- TOP10 入口页面 -->
-	<select id="indexCount2" resultType="hashmap">	
-		select b.url, COUNT(b.url) num
-		from t_d_counts b
-		where b.siteid='1111'
-		group by b.url
-		order by num DESC
-	</select>
-
-
 	<select id="siteDetails" resultType="hashmap">
 		SELECT a.site_id, a.url, pageviews1, ip1, pageviews2, ip2
 		FROM

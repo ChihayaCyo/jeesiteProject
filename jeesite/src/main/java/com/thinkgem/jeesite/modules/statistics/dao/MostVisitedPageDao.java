@@ -19,4 +19,8 @@ public interface MostVisitedPageDao{
 
 	public List<Map<String, String>> topTenPage(@Param(value = "siteId") String siteId);
 
+	public List<Map<String, String>> topTenPageByDay(@Param(value = "currentDate") String currentDate,
+													 @Param(value = "day") Integer day,
+													 @Param(value = "siteId") String siteId);
+
 }

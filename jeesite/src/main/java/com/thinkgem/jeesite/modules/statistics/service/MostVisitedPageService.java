@@ -27,5 +27,9 @@ public class MostVisitedPageService{
 		return mostVisitedPageDao.topTenPage(siteId);
 	}
 
+	public List<Map<String, String>> topTenPageByDay(Integer day,String siteId) {
+		return mostVisitedPageDao.topTenPageByDay("2016-11-19 00:00:00",day,siteId);
+	}
+
 	
 }

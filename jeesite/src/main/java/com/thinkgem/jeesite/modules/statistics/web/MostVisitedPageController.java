@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Map;
@@ -31,15 +32,23 @@ public class MostVisitedPageController{
 	@Autowired
 	private MostVisitedPageService mostVisitedPageService;
 
-	@RequiresPermissions("statistics:mostVisitedPage:index")
-	@RequestMapping(value = {"index/{siteId}", ""})
-	public String index(Model model, @PathVariable String siteId) {
+
+	@RequestMapping("/index/{siteId}")
+	public String topTenPage(Model model, @PathVariable String siteId) {
 		List<Map<String, String>> list = sitesOverviewService.siteDetails(siteId);
 		model.addAttribute("list", list);
 		
-		List<Map<String, String>> topTenPageList = mostVisitedPageService.topTenPage(siteId);
-		model.addAttribute("topTenPageList", topTenPageList);
-		
 		return "modules/statistics/mostVisitedPage";
 	}
+
+
+	@RequestMapping("/vue")
+	@ResponseBody
+	public List<Map<String, String>> topTenPageByDay(Integer day, String siteId) {
+
+		List<Map<String, String>> topTenPageList = mostVisitedPageService.topTenPageByDay(day,siteId);
+
+		return topTenPageList;
+	}
+
 }

@@ -12,6 +12,17 @@
 		ORDER BY num DESC
 		LIMIT 10
 	</select>
+
+	<select id="topTenPageByDay" resultType="hashmap">
+		SELECT url, count(*) num
+		FROM statistics
+		WHERE time >  DATE_SUB(#{currentDate},INTERVAL #{day} DAY)
+		AND time <![CDATA[ < ]]> #{currentDate}
+		AND site_id = #{siteId}
+		GROUP BY url
+		ORDER BY num DESC
+		LIMIT 10
+	</select>
 	
 	
 	
