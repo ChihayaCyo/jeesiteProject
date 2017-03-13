@@ -29,8 +29,6 @@ public class HomeController{
 	@Autowired
 	private HomeService homeService;
 
-	
-	@RequiresPermissions("statistics:home:index")
 	@RequestMapping(value = {"/index", ""})
 	public String index(Model model) {
 		List<Map<String, String>> list = homeService.homepageList();

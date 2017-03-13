@@ -14,16 +14,23 @@
 	</select>
 
 	<select id="topTenPageByDay" resultType="hashmap">
-		SELECT url, count(*) num
+		SELECT url, count(*) num, count(DISTINCT ip) ip
 		FROM statistics
-		WHERE time >  DATE_SUB(#{currentDate},INTERVAL #{day} DAY)
-		AND time <![CDATA[ < ]]> #{currentDate}
+		<choose>
+			<when test="day == -1">
+				WHERE time >  DATE_SUB(DATE_SUB(#{currentDate},INTERVAL 3 DAY),INTERVAL #{day} DAY)
+				AND time <![CDATA[ < ]]> DATE_SUB(#{currentDate},INTERVAL 1 DAY)
+			</when>
+			<otherwise>
+				WHERE time >  DATE_SUB(#{currentDate},INTERVAL #{day} DAY)
+				AND time <![CDATA[ < ]]> #{currentDate}
+			</otherwise>
+		</choose>
 		AND site_id = #{siteId}
 		GROUP BY url
 		ORDER BY num DESC
 		LIMIT 10
 	</select>
-	
 	
 	
 	

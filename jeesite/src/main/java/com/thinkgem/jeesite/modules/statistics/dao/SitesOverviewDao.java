@@ -17,8 +17,10 @@ import java.util.Map;
 @MyBatisDao
 public interface SitesOverviewDao{
 
-	public List<Map<String, String>> indexCount2();
+	List<Map<String, String>> indexCount2();
 
-	public List<Map<String, String>> siteDetails(@Param(value = "siteId") String siteId, @Param(value = "currentDate") String currentDate);
+	List<Map<String, String>> siteDetails(@Param(value = "siteId") String siteId, @Param(value = "currentDate") String currentDate);
+
+	List<Map<String, String>> overviewByDay(@Param(value = "siteId") String siteId);
 
 }

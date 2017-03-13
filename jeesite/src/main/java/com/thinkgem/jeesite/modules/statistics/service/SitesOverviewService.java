@@ -31,5 +31,8 @@ public class SitesOverviewService{
 		return sitesOverviewDao.siteDetails(siteId,"2016-11-19 00:00:00");
 	}
 
+	public List<Map<String, String>> overviewByDay(String siteId) {
+		return sitesOverviewDao.overviewByDay(siteId);
+	}
 	
 }

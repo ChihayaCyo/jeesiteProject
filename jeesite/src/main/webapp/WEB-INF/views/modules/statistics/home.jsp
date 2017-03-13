@@ -52,7 +52,8 @@
                             </div>
                         </td>
                         <td>
-                            <div style="padding-top:15px"><a href="/jeesite/a/statistics/sitesOverview/index/${site.site_id}">查看报告</a></div>
+                           <div style="padding-top:15px"><a href="/jeesite/a/statistics/sitesOverview/index/${site.site_id}">查看报告</a></div>
+                            <%--<div style="padding-top:15px"><a href="/jeesite/a/statistics/sitesRouter/index/${site.site_id}">查看报告</a></div>--%>
                         </td>
                     </tr>
                 </c:forEach>

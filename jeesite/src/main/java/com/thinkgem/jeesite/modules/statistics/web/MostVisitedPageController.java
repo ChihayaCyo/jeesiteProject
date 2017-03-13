@@ -42,7 +42,7 @@ public class MostVisitedPageController{
 	}
 
 
-	@RequestMapping("/vue")
+	@RequestMapping("/vue/topPage")
 	@ResponseBody
 	public List<Map<String, String>> topTenPageByDay(Integer day, String siteId) {
 

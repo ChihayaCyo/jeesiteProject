@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Map;
@@ -28,18 +29,31 @@ public class SitesOverviewController{
 	@Autowired
 	private SitesOverviewService sitesOverviewService;
 
-	@Autowired
-	private MostVisitedPageService mostVisitedPageService;
-
-	@RequiresPermissions("statistics:sitesOverview:index")
 	@RequestMapping(value = {"/index/{siteId}", ""})
 	public String index(Model model, @PathVariable String siteId) {
+
 		List<Map<String, String>> list = sitesOverviewService.siteDetails(siteId);
 		model.addAttribute("list", list);
 		
-		List<Map<String, String>> list2 = mostVisitedPageService.topTenPage(siteId);
-		model.addAttribute("list2", list2);
-		
 		return "modules/statistics/sitesOverview";
 	}
+
+	@RequestMapping("/vue/siteDetails")
+	@ResponseBody
+	public List<Map<String, String>> siteDetails(String siteId) {
+
+		List<Map<String, String>> siteDetails = sitesOverviewService.siteDetails(siteId);
+
+		return siteDetails;
+	}
+
+	@RequestMapping("/vue/overviewByDay")
+	@ResponseBody
+	public List<Map<String, String>> overviewByDay(String siteId) {
+
+		List<Map<String, String>> overviewByDay = sitesOverviewService.overviewByDay(siteId);
+
+		return overviewByDay;
+	}
+
 }

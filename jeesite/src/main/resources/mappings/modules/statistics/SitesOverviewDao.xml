@@ -20,6 +20,14 @@
 		AND site_id = #{siteId} ) b
 		ON a.site_id=b.site_id
 	</select>
+
+	<select id="overviewByDay" resultType="hashmap">
+		SELECT DATE_FORMAT(time,"%Y-%m-%d") timeDay, count(*) pageviews, count(DISTINCT ip) ip
+		FROM statistics
+		WHERE site_id = #{siteId}
+		GROUP BY DATE_FORMAT(time,"%Y-%m-%d")
+/*		ORDER BY pageviews DESC*/
+	</select>
 	
 	
 </mapper>
