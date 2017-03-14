@@ -11,12 +11,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>网站概述</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.4.0/echarts.common.min.js"></script>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper" id="box">
 
-    <jsp:include page="commons/sidebar.jsp" />
+    <jsp:include page="commons/sidebar.jsp"/>
 
 
     <!-- Content Wrapper. Contains page content -->
@@ -73,10 +74,13 @@
 
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li @click="getPageData(1,'今天')" class="active"><a href="#tab_1-1" data-toggle="tab">今天</a></li>
-                    <li @click="getPageData(-1,'昨天')"><a href="#tab_2-2" data-toggle="tab">昨天</a></li>
-                    <li @click="getPageData(7,'最近7天')"><a href="#tab_3-2" data-toggle="tab">最近七天</a></li>
-                    <li @click="getPageData(30,'最近30天')"><a href="#tab_2-2" data-toggle="tab">最近30天</a></li>
+                    <li id="chartByDay1" @click="getPageData(1,'今天')" class="active"><a href="#tab_1-1"
+                                                                                        data-toggle="tab">今天</a></li>
+                    <li id="chartByDay_1" @click="getPageData(-1,'昨天')"><a href="#tab_2-2" data-toggle="tab">昨天</a></li>
+                    <li id="chartByDay7" @click="getPageData(7,'最近7天')"><a href="#tab_3-2" data-toggle="tab">最近七天</a>
+                    </li>
+                    <li id="chartByDay30" @click="getPageData(30,'最近30天')"><a href="#tab_2-2"
+                                                                              data-toggle="tab">最近30天</a></li>
                 </ul>
             </div>
 
@@ -91,7 +95,8 @@
                             </div>
                         </div>
                         <div class="box-body" style="height:380px;padding:10px 10px 10px 10px">
-                            <div class="chart tab-pane active" id="revenue-chart"
+                            <%--<div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"></div>--%>
+                            <div id="main" class="chart tab-pane active"
                                  style="position: relative; height: 300px;"></div>
                         </div>
                     </div>
@@ -103,7 +108,7 @@
                         <!-- DIRECT CHAT SUCCESS -->
                         <div class="box direct-chat direct-chat-success">
                             <div class="box-header with-border">
-                                <h3 class="box-title">受访页面</h3>
+                                <h3 class="box-title">TOP10受访页面</h3>
                                 <div class="box-tools pull-right">
                                     <i class="fa fa-fw fa-chevron-circle-right" style="color:#DCDCDC;"></i>
                                 </div>
@@ -251,32 +256,114 @@
 
     //    console.log(jeeProject.chartList);//先执行 没有值
 
+
+</script>
+<script>
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+    myChart.setOption({
+        /*        title: {
+         text: '趋势图'
+         },*/
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: ['访问量', 'IP数']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: [1]
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            name: '访问量',
+            type: 'line',
+            data: [1]
+        }, {
+            name: 'IP数',
+            type: 'line',
+            data: [1]
+        }]
+    });
+    // 使用刚指定的配置项和数据显示图表。
+/*    myChart.setOption(option);*/
+
+
     var jeeProject = {
-        chartList: [],
-        overviewByDayJQ: function () {
+        iCategory: [],
+        iPageviews: [],
+        iIp: [],
+        chartByDay: function (day) {
             $.ajax({
-                url: '/jeesite/a/statistics/sitesOverview/vue/overviewByDay?siteId=' + '${list[0].site_id}',
+                url: '/jeesite/a/statistics/sitesOverview/vue/chartByDay?siteId=' + '${list[0].site_id}' + '&day=' + day,
                 async: false,
                 success: function (res) {
                     var list = res;
-                    var overviewList = [];
+                    iCategory = [];
+                    iPageviews = [];
+                    iIp = [];
                     for (var i = 0; i < list.length; i++) {
-                        overviewList.push({
-                            y: list[i].timeDay,
-                            item1: list[i].pageviews,
-                            item2: list[i].ip
-                        });
+                        iCategory[i] = list[i].timeDay;
+                        iPageviews[i] = list[i].pageviews;
+                        iIp[i] = list[i].ip;
                     }
-                    jeeProject.chartList = overviewList;
-//                    console.log(jeeProject.chartList);
+                    myChart.setOption({
+                        xAxis: {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: iCategory
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [{
+                            name: '访问量',
+                            type: 'line',
+                            data: iPageviews
+                        }, {
+                            name: 'IP数',
+                            type: 'line',
+                            data: iIp
+                        }]
+                    });
                 }
             });
         }
     };
 
-    jeeProject.overviewByDayJQ();
-/*    console.log(jeeProject.chartList);*/
+    jeeProject.chartByDay(1);//默认显示
+    /*    console.log(jeeProject.chartList);*/
 
+    $("#chartByDay1").click(function () {
+        jeeProject.chartByDay(1);
+
+    });
+    $("#chartByDay_1").click(function () {
+        jeeProject.chartByDay(-1);
+    });
+    $("#chartByDay7").click(function () {
+        jeeProject.chartByDay(7);
+    });
+    $("#chartByDay30").click(function () {
+        jeeProject.chartByDay(30);
+    });
 
 </script>
+
+
 </html>

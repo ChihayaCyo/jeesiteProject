@@ -3,8 +3,52 @@
 <mapper namespace="com.thinkgem.jeesite.modules.statistics.dao.SysEnvDao">
 
 
-	<select id="getSysEnvData" resultType="hashmap">
+	<select id="getBrowserData" resultType="com.thinkgem.jeesite.modules.statistics.pojo.Browser">
+		SELECT
+		COUNT(IF(LOCATE('MSIE 6.0',user_agent)>0,1,NULL)) IE6,
+		COUNT(IF(LOCATE('MSIE 7.0',user_agent)>0,1,NULL)) IE7,
+		COUNT(IF(LOCATE('MSIE 8.0',user_agent)>0,1,NULL)) IE8,
+		COUNT(IF(LOCATE('MSIE 9.0',user_agent)>0,1,NULL)) IE9,
+		COUNT(IF(LOCATE('MSIE 10.0',user_agent)>0,1,NULL)) IE10,
+		COUNT(IF(LOCATE('Firefox',user_agent)>0,1,NULL)) Firefox,
+		COUNT(IF(LOCATE('Safari',user_agent)>0,1,NULL)) Chrome,
+		COUNT(IF(LOCATE('Trident',user_agent)>0,1,NULL)) Trident,
+		COUNT(IF(LOCATE('Gecko',user_agent)>0,1,NULL)) GeckoWebKit
+		FROM statistics
+		<choose>
+			<when test="day == -1">
+				WHERE time >  DATE_SUB(DATE_SUB(#{currentDate},INTERVAL 3 DAY),INTERVAL #{day} DAY)
+				AND time <![CDATA[ < ]]> DATE_SUB(#{currentDate},INTERVAL 1 DAY)
+			</when>
+			<otherwise>
+				WHERE time >  DATE_SUB(#{currentDate},INTERVAL #{day} DAY)
+				AND time <![CDATA[ < ]]> #{currentDate}
+			</otherwise>
+		</choose>
+		AND site_id = #{siteId}
+	</select>
 
+
+	<select id="getOSData" resultType="com.thinkgem.jeesite.modules.statistics.pojo.OS">
+		SELECT
+		COUNT(IF(LOCATE('Windows NT 5.1',user_agent)>0,1,NULL)) WindowsXp,
+		COUNT(IF(LOCATE('Windows NT 6.1',user_agent)>0,1,NULL)) Windows7,
+		COUNT(IF(LOCATE('Windows NT 6.2',user_agent)>0 || LOCATE('Windows NT 6.3',user_agent)>0,1,NULL)) Windows8,
+		COUNT(IF(LOCATE('Windows NT 10',user_agent)>0,1,NULL)) Windows10,
+		COUNT(IF(LOCATE('Macintosh',user_agent)>0,1,NULL)) Mac,
+		COUNT(IF(LOCATE('X11',user_agent)>0,1,NULL)) Linux
+		FROM statistics
+		<choose>
+			<when test="day == -1">
+				WHERE time >  DATE_SUB(DATE_SUB(#{currentDate},INTERVAL 3 DAY),INTERVAL #{day} DAY)
+				AND time <![CDATA[ < ]]> DATE_SUB(#{currentDate},INTERVAL 1 DAY)
+			</when>
+			<otherwise>
+				WHERE time >  DATE_SUB(#{currentDate},INTERVAL #{day} DAY)
+				AND time <![CDATA[ < ]]> #{currentDate}
+			</otherwise>
+		</choose>
+		AND site_id = #{siteId}
 	</select>
 	
 	

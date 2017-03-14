@@ -4,10 +4,9 @@
 package com.thinkgem.jeesite.modules.statistics.dao;
 
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
+import com.thinkgem.jeesite.modules.statistics.pojo.Browser;
+import com.thinkgem.jeesite.modules.statistics.pojo.OS;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * 网站概述DAO接口
@@ -17,6 +16,12 @@ import java.util.Map;
 @MyBatisDao
 public interface SysEnvDao {
 
-	public List<Map<String, String>> getSysEnvData(@Param(value = "siteId") String siteId);
+	 Browser getBrowserData(@Param(value = "siteId") String siteId,
+							@Param(value = "currentDate") String currentDate,
+							@Param(value = "day") Integer day);
+
+	OS getOSData(@Param(value = "siteId") String siteId,
+				 @Param(value = "currentDate") String currentDate,
+				 @Param(value = "day") Integer day);
 
 }

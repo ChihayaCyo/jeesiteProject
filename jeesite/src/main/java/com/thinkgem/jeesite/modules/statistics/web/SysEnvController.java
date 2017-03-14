@@ -3,8 +3,12 @@
  */
 package com.thinkgem.jeesite.modules.statistics.web;
 
+import com.thinkgem.jeesite.modules.statistics.dao.SysEnvDao;
+import com.thinkgem.jeesite.modules.statistics.pojo.Browser;
+import com.thinkgem.jeesite.modules.statistics.pojo.OS;
 import com.thinkgem.jeesite.modules.statistics.service.MostVisitedPageService;
 import com.thinkgem.jeesite.modules.statistics.service.SitesOverviewService;
+import com.thinkgem.jeesite.modules.statistics.service.SysEnvService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +31,9 @@ public class SysEnvController {
 	@Autowired
 	private SitesOverviewService sitesOverviewService;
 
+	@Autowired
+	private SysEnvService sysEnvService;
+
 
 	@RequestMapping("/index/{siteId}")
 	public String index(Model model, @PathVariable String siteId) {
@@ -36,5 +43,22 @@ public class SysEnvController {
 		return "modules/statistics/sysEnv";
 	}
 
+	@RequestMapping("/vue/getBrowserData")
+	@ResponseBody
+	public Browser getBrowserData(String siteId, Integer day) {
+
+		Browser browserData = sysEnvService.getBrowserData(siteId, day);
+
+		return browserData;
+	}
+
+	@RequestMapping("/vue/getOSData")
+	@ResponseBody
+	public OS getOSData(String siteId, Integer day) {
+
+		OS OSData = sysEnvService.getOSData(siteId, day);
+
+		return OSData;
+	}
 
 }

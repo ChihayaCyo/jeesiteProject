@@ -32,16 +32,16 @@
                 </span>
             </div>
 
-            <%--<form>--%>
+
             <br/>
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">指标概览</a></li>
-                    <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">页面价值分析</a></li>
+                    <li class=""><a href="#tab_1" data-toggle="tab" aria-expanded="false">指标概览</a></li>
+                    <li class="active"><a href="#tab_2" data-toggle="tab" aria-expanded="true">页面价值分析</a></li>
                 </ul>
                 <div class="tab-content">
+                    <div class="tab-pane" id="tab_1">
 
-                    <div class="tab-pane active" id="tab_1">
                         <div class="box">
                             <div class="box-body table-responsive no-padding">
                                 <table class="table table-hover">
@@ -76,7 +76,7 @@
                         </div>
                     </div>
 
-                    <div class="tab-pane" id="tab_2">
+                    <div class="tab-pane active" id="tab_2">
                         <div class="box">
                             <div class="box-body table-responsive no-padding">
                                 <table class="table table-hover">
@@ -121,7 +121,6 @@
                     </div>
                 </div>
             </div>
-            <%--</form>--%>
         </section>
     </div>
 

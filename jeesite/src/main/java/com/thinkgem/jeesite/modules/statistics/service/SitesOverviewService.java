@@ -23,16 +23,26 @@ public class SitesOverviewService{
 	@Autowired
 	SitesOverviewDao sitesOverviewDao;
 
-	public List<Map<String, String>> indexCount2() {
+/*	public List<Map<String, String>> indexCount2() {
 		return sitesOverviewDao.indexCount2();
-	}
+	}*/
 
 	public List<Map<String, String>> siteDetails(String siteId) {
+
 		return sitesOverviewDao.siteDetails(siteId,"2016-11-19 00:00:00");
+
 	}
 
 	public List<Map<String, String>> overviewByDay(String siteId) {
+
 		return sitesOverviewDao.overviewByDay(siteId);
+
+	}
+
+	public List<Map<String, String>> chartByDay(String siteId, Integer day) {
+
+		return sitesOverviewDao.chartByDay(siteId,"2016-11-19 00:00:00",day);
+
 	}
 	
 }

@@ -17,9 +17,9 @@ import java.util.Map;
 @MyBatisDao
 public interface MostVisitedPageDao{
 
-	public List<Map<String, String>> topTenPage(@Param(value = "siteId") String siteId);
+	List<Map<String, String>> topTenPage(@Param(value = "siteId") String siteId);
 
-	public List<Map<String, String>> topTenPageByDay(@Param(value = "currentDate") String currentDate,
+	List<Map<String, String>> topTenPageByDay(@Param(value = "currentDate") String currentDate,
 													 @Param(value = "day") Integer day,
 													 @Param(value = "siteId") String siteId);
 
