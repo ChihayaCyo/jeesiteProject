@@ -74,12 +74,12 @@
 
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li id="chartByDay1" @click="getPageData(1,'今天')" class="active"><a href="#tab_1-1"
+                    <li id="chartByDay1" @click="getPageData(1,'2016-11-19 00:00:00')" class="active"><a href="#tab_1-1"
                                                                                         data-toggle="tab">今天</a></li>
-                    <li id="chartByDay_1" @click="getPageData(-1,'昨天')"><a href="#tab_2-2" data-toggle="tab">昨天</a></li>
-                    <li id="chartByDay7" @click="getPageData(7,'最近7天')"><a href="#tab_3-2" data-toggle="tab">最近七天</a>
+                    <li id="chartByDay_1" @click="getPageData(-1,'2016-11-19 00:00:00')"><a href="#tab_2-2" data-toggle="tab">昨天</a></li>
+                    <li id="chartByDay7" @click="getPageData(7,'2016-11-19 00:00:00')"><a href="#tab_3-2" data-toggle="tab">最近七天</a>
                     </li>
-                    <li id="chartByDay30" @click="getPageData(30,'最近30天')"><a href="#tab_2-2"
+                    <li id="chartByDay30" @click="getPageData(30,'2016-11-19 00:00:00')"><a href="#tab_2-2"
                                                                               data-toggle="tab">最近30天</a></li>
                 </ul>
             </div>
@@ -154,7 +154,6 @@
     var vue = new Vue({
         el: '#box',
         data: {
-            name: 'welcome!!',
             myList: [],
             total: 1,//top10受访页面浏览量
             siteList: [],
@@ -167,11 +166,11 @@
         },
         created(){//vue实例创建完成, 下一步就是mount-模板编译
             this.getSiteDetails();
-            this.getPageData(1, '今天');
+            this.getPageData(1, '2016-11-19 00:00:00');
             this.overviewByDay();
         },
         methods: {
-            getSiteDetails: function () {
+            getSiteDetails: function () {//并没有用
                 this.$http({
                     method: 'GET',
                     url: '/jeesite/a/statistics/sitesOverview/vue/siteDetails',
@@ -193,19 +192,19 @@
                     }
                 });
             },
-            getPageData: function (n, name) {
+            getPageData: function (n, pageTime) {//top10受访页面
                 this.$http({
                     method: 'GET',
                     url: '/jeesite/a/statistics/mostVisitedPage/vue/topPage',
                     data: {
-                        day: n,
-                        siteId: '${list[0].site_id}'
+                        siteId: '${list[0].site_id}',
+                        currentDate: pageTime,
+                        day: n
                     }
                 }).then(function (res) {
                     var list = res.data;
                     this.myList = [];
                     this.total = 0;
-                    this.name = name;
                     for (var i = 0; i < list.length; i++) {
                         this.myList.push({
                             url: list[i].url,
@@ -215,10 +214,10 @@
                     }
                 });
             },
-            overviewByDay: function () {
+            overviewByDay: function () {//每日平均 历史峰值 并没有用currentDate和day参数
                 this.$http({
                     method: 'GET',
-                    url: '/jeesite/a/statistics/sitesOverview/vue/overviewByDay',
+                    url: '/jeesite/a/statistics/sitesOverview/vue/overviewByDay',//假的byDay 其实是groupByDay
                     data: {
                         siteId: '${list[0].site_id}'
                     }

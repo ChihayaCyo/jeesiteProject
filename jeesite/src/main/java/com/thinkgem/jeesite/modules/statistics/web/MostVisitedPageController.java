@@ -44,9 +44,9 @@ public class MostVisitedPageController{
 
 	@RequestMapping("/vue/topPage")
 	@ResponseBody
-	public List<Map<String, String>> topTenPageByDay(Integer day, String siteId) {
+	public List<Map<String, String>> topTenPageByDay(Integer day, String currentDate, String siteId) {
 
-		List<Map<String, String>> topTenPageList = mostVisitedPageService.topTenPageByDay(day,siteId);
+		List<Map<String, String>> topTenPageList = mostVisitedPageService.topTenPageByDay(siteId,currentDate,day);
 
 		return topTenPageList;
 	}

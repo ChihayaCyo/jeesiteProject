@@ -23,12 +23,12 @@ public class MostVisitedPageService{
 	@Autowired
 	MostVisitedPageDao mostVisitedPageDao;
 
-	public List<Map<String, String>> topTenPage(String siteId) {
+	/*public List<Map<String, String>> topTenPage(String siteId) {
 		return mostVisitedPageDao.topTenPage(siteId);
-	}
+	}*/
 
-	public List<Map<String, String>> topTenPageByDay(Integer day,String siteId) {
-		return mostVisitedPageDao.topTenPageByDay("2016-11-19 00:00:00",day,siteId);
+	public List<Map<String, String>> topTenPageByDay(String siteId, String currentDate, Integer day) {
+		return mostVisitedPageDao.topTenPageByDay(siteId,currentDate,day);
 	}
 
 	

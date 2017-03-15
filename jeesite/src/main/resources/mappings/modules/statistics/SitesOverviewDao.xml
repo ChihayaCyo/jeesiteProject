@@ -3,6 +3,8 @@
 <mapper namespace="com.thinkgem.jeesite.modules.statistics.dao.SitesOverviewDao">
 
 
+
+
 	<!-- TOP10 入口页面 -->
 	<select id="siteDetails" resultType="hashmap">
 		SELECT a.site_id, a.url, pageviews1, ip1, pageviews2, ip2

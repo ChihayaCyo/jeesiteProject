@@ -4,14 +4,14 @@
 
 
 	<!-- TOP10 入口页面 -->
-	<select id="topTenPage" resultType="hashmap">
+<!--	<select id="topTenPage" resultType="hashmap">
 		SELECT url, count(*) num
 		FROM statistics
 		WHERE site_id = #{siteId}
 		GROUP BY url
 		ORDER BY num DESC
 		LIMIT 10
-	</select>
+	</select>-->
 
 	<select id="topTenPageByDay" resultType="hashmap">
 		SELECT url, count(*) num, count(DISTINCT ip) ip

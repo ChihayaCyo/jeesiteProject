@@ -22,14 +22,20 @@
         <div style="font-size:30px;">&nbsp&nbsp受访页面</div>
 
         <section class="content">
-            <div>
+            <div class="col-md-6">
                 <span>时间：</span>
                 <span class="btn-group" style="padding-left:10px;">
-                    <input type="button" class="btn btn-default" value="今天" @click="getPageData(1,'今天')"/>
-                    <input type="button" class="btn btn-default" value="昨天" @click="getPageData(-1,'昨天')"/>
-                    <input type="button" class="btn btn-default" value="最近7天" @click="getPageData(7,'最近7天')"/>
-                    <input type="button" class="btn btn-default" value="最近30天" @click="getPageData(30,'最近30天')"/>
+                    <input type="button" class="btn btn-default" value="今天" @click="getPageData(1,'2016-11-19 00:00:00')"/>
+                    <input type="button" class="btn btn-default" value="昨天" @click="getPageData(-1,'2016-11-19 00:00:00')"/>
+                    <input type="button" class="btn btn-default" value="最近7天" @click="getPageData(7,'2016-11-19 00:00:00')"/>
+                    <input type="button" class="btn btn-default" value="最近30天" @click="getPageData(30,'2016-11-19 00:00:00')"/>
                 </span>
+            </div>
+            <div class="input-group date col-xs-3" class="col-md-6">
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <input type="text" class="form-control pull-right" id="datepicker" value="2016-11-19">
             </div>
 
 
@@ -134,34 +140,33 @@
         str += "%";
         return str;
     });
-    new Vue({
+    var vueTopPage = new Vue({
         el: '#box',
         data: {
             myList: [],//[]是数组, {}是对象; 在本案例中,数组myList中的项为对象[{}, {}, ...]
             total: 0,
             totalIp: 0,
-            name: '',
             inputDay: 1,
             siteUrl: '${list[0].url}'
         },
         created(){//vue实例创建完成, 下一步就是mount-模板编译
-            this.getPageData(1, '今天');
+            this.getPageData(1,'2016-11-19 00:00:00');
         },
         methods: {
-            getPageData: function (n, name) {
+            getPageData: function (n,pageTime) {
                 this.$http({
                     method: 'GET',
                     url: '/jeesite/a/statistics/mostVisitedPage/vue/topPage',
                     data: {
-                        day: n,
-                        siteId: '${list[0].site_id}'
+                        siteId: '${list[0].site_id}',
+                        currentDate: pageTime,
+                        day: n
                     }
                 }).then(function (res) {
                     var list = res.data;
                     this.myList = [];
                     this.total = 0;
                     this.totalIp = 0;
-                    this.name = name;
                     for (var i = 0; i < list.length; i++) {
                         this.myList.push({
                             url: list[i].url,
@@ -175,5 +180,32 @@
             }
         }
     });
+
+    Date.prototype.Format = function (fmt) { //author: meizz
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "h+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    };
+
+    //警告: 必须放在vue后面!!!!!!!!!!!!!!!!!!
+    $('#datepicker').datepicker({
+        autoclose: true,
+        format: 'yyyy-mm-dd'
+    }).on('changeDate', function(e) {
+        var time = e.date.Format("yyyy-MM-dd hh:mm:ss");
+        console.log(time);
+        vueTopPage.getPageData(1,time);
+    });
+
 </script>
 </html>
