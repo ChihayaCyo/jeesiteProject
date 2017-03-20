@@ -11,7 +11,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>网站概述</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.4.0/echarts.common.min.js"></script>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -74,12 +73,12 @@
 
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li id="chartByDay1" @click="getPageData(1,'2016-11-19 00:00:00')" class="active"><a href="#tab_1-1"
+                    <li id="chartByDay1" @click="getPageData(1,'2017-03-20 00:00:00')" class="active"><a href="#tab_1-1"
                                                                                         data-toggle="tab">今天</a></li>
-                    <li id="chartByDay_1" @click="getPageData(-1,'2016-11-19 00:00:00')"><a href="#tab_2-2" data-toggle="tab">昨天</a></li>
-                    <li id="chartByDay7" @click="getPageData(7,'2016-11-19 00:00:00')"><a href="#tab_3-2" data-toggle="tab">最近七天</a>
+                    <li id="chartByDay_1" @click="getPageData(-1,'2017-03-20 00:00:00')"><a href="#tab_2-2" data-toggle="tab">昨天</a></li>
+                    <li id="chartByDay7" @click="getPageData(7,'2017-03-20 00:00:00')"><a href="#tab_3-2" data-toggle="tab">最近七天</a>
                     </li>
-                    <li id="chartByDay30" @click="getPageData(30,'2016-11-19 00:00:00')"><a href="#tab_2-2"
+                    <li id="chartByDay30" @click="getPageData(30,'2017-03-20 00:00:00')"><a href="#tab_2-2"
                                                                               data-toggle="tab">最近30天</a></li>
                 </ul>
             </div>
@@ -115,18 +114,20 @@
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body" style="height:380px;">
-                                <table class="table">
-                                    <tr>
-                                        <th width="68%%">受访页面</th>
-                                        <th width="16%">浏览量(PV)</th>
-                                        <th width="16%">占比</th>
-                                    </tr>
-                                    <tr v-for="item in myList">
-                                        <td>{{item.url}}</td>
-                                        <td>{{item.num}}</td>
-                                        <td>{{item.num/total | filterPercent}}</td>
-                                    </tr>
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <th>受访页面</th>
+                                            <th>浏览量(PV)</th>
+                                            <th>占比</th>
+                                        </tr>
+                                        <tr v-for="item in myList">
+                                            <td style="word-wrap:break-word;word-break:break-all;">{{item.url | filterUrl}}</td>
+                                            <td>{{item.num}}</td>
+                                            <td>{{item.num/total | filterPercent}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -141,6 +142,13 @@
 
 <script>
 
+    Vue.filter('filterUrl', function (input) {
+        if(input.length<=28){
+            return input;
+        }else{
+            return input.slice(0,input.lastIndexOf("?"));
+        }
+    });
     Vue.filter('filterPercent', function (input) {
         var str = Number(input * 100).toFixed(1);
         str += "%";
@@ -166,7 +174,7 @@
         },
         created(){//vue实例创建完成, 下一步就是mount-模板编译
             this.getSiteDetails();
-            this.getPageData(1, '2016-11-19 00:00:00');
+            this.getPageData(1, '2017-03-20 00:00:00');
             this.overviewByDay();
         },
         methods: {
@@ -268,7 +276,7 @@
             trigger: 'axis'
         },
         legend: {
-            data: ['访问量', 'IP数']
+            data: ['浏览量', 'IP数']
         },
         grid: {
             left: '3%',
@@ -290,7 +298,7 @@
             type: 'value'
         },
         series: [{
-            name: '访问量',
+            name: '浏览量',
             type: 'line',
             data: [1]
         }, {
@@ -331,7 +339,7 @@
                             type: 'value'
                         },
                         series: [{
-                            name: '访问量',
+                            name: '浏览量',
                             type: 'line',
                             data: iPageviews
                         }, {
@@ -344,6 +352,7 @@
             });
         }
     };
+
 
     jeeProject.chartByDay(1);//默认显示
     /*    console.log(jeeProject.chartList);*/

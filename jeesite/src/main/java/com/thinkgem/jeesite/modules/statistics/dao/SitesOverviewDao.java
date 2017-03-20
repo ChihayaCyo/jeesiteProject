@@ -27,4 +27,7 @@ public interface SitesOverviewDao {
     List<Map<String, String>> chartByDay(@Param(value = "siteId") String siteId,
                                          @Param(value = "currentDate") String currentDate,
                                          @Param(value = "day") Integer day);
+
+    List<Map<String, String>> chartByDayAllSite(@Param(value = "currentDate") String currentDate,
+                                                @Param(value = "day") Integer day);
 }

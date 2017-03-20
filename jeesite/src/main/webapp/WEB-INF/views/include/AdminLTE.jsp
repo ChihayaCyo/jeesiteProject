@@ -77,3 +77,8 @@ folder instead of downloading all of them to reduce the load. -->
 <%--<script src="${ctxStatic}/dist/js/pages/dashboard.js"></script>--%>
 <!-- AdminLTE for demo purposes -->
 <script src="${ctxStatic}/dist/js/demo.js"></script>
+
+<!-- 还真与顺序有关 得放在jq加载之后  -->
+<script src="${ctxStatic}\dist\js\jquery.table2excel.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.4.0/echarts.common.min.js"></script>

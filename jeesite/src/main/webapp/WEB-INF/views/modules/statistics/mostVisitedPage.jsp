@@ -25,18 +25,26 @@
             <div class="col-md-6">
                 <span>时间：</span>
                 <span class="btn-group" style="padding-left:10px;">
-                    <input type="button" class="btn btn-default" value="今天" @click="getPageData(1,'2016-11-19 00:00:00')"/>
-                    <input type="button" class="btn btn-default" value="昨天" @click="getPageData(-1,'2016-11-19 00:00:00')"/>
-                    <input type="button" class="btn btn-default" value="最近7天" @click="getPageData(7,'2016-11-19 00:00:00')"/>
-                    <input type="button" class="btn btn-default" value="最近30天" @click="getPageData(30,'2016-11-19 00:00:00')"/>
+                    <input type="button" class="btn btn-default" value="今天" @click="getPageData(1,'2017-03-20 00:00:00')"/>
+                    <input type="button" class="btn btn-default" value="昨天" @click="getPageData(-1,'2017-03-20 00:00:00')"/>
+                    <input type="button" class="btn btn-default" value="最近7天" @click="getPageData(7,'2017-03-20 00:00:00')"/>
+                    <input type="button" class="btn btn-default" value="最近30天" @click="getPageData(30,'2017-03-20 00:00:00')"/>
                 </span>
             </div>
-            <div class="input-group date col-xs-3" class="col-md-6">
+            <div class="input-group date col-xs-3" class="col-md-5">
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                <input type="text" class="form-control pull-right" id="datepicker" value="2016-11-19">
+                <input type="text" class="form-control pull-right" id="datepicker" value="2017-03-20">
             </div>
+
+            <div style="position:fixed; right:50px; z-index:999; top:0;">
+                <br/>
+                <input type="button" class="btn btn-default btn-small" value="导出为EXCEL"
+                       onclick="javascript:ExportToExcel('tb2Download')"/>
+            </div>
+
+
 
 
             <br/>
@@ -73,7 +81,7 @@
                                     </tr>
                                     <tr v-for="(item,index) in myList">
                                         <td>{{index+1}}</td>
-                                        <td style="text-align:left;"><a href="#">{{item.url}}</a></td>
+                                        <td style="word-wrap:break-word;word-break:break-all;"><a href="#">{{item.url}}</a></td>
                                         <td>{{item.num}}</td>
                                     </tr>
                                     </tbody>
@@ -102,11 +110,11 @@
 
                         <div class="box">
                             <div class="box-body table-responsive no-padding">
-                                <table class="table table-hover" border="0">
+                                <table class="table table-hover" border="0" id="tb2Download">
                                     <tbody>
                                     <tr>
                                         <td colspan="2" rowspan="2">页面URL</td>
-                                        <td colspan="2">网站基础指标(UV)</td>
+                                        <td colspan="3">网站基础指标(UV)</td>
                                     </tr>
                                     <tr>
                                         <td>浏览量(PV)</td>
@@ -115,7 +123,7 @@
                                     </tr>
                                     <tr v-for="(item,index) in myList">
                                         <td>{{index+1}}</td>
-                                        <td><a href="#">{{item.url}}</a></td>
+                                        <td style="word-wrap:break-word;word-break:break-all;"><a href="#">{{item.url}}</a></td>
                                         <td>{{item.num}}</td>
                                         <td>{{item.ip}}</td>
                                         <td>{{item.num/total | filterPercent}}</td>
@@ -150,7 +158,7 @@
             siteUrl: '${list[0].url}'
         },
         created(){//vue实例创建完成, 下一步就是mount-模板编译
-            this.getPageData(1,'2016-11-19 00:00:00');
+            this.getPageData(1,'2017-03-20 00:00:00');
         },
         methods: {
             getPageData: function (n,pageTime) {
@@ -207,5 +215,21 @@
         vueTopPage.getPageData(1,time);
     });
 
+</script>
+
+
+<script>
+
+    //table2excel
+    function ExportToExcel() {
+        $("#tb2Download").table2excel({
+            // 不被导出的表格行的CSS class类
+            exclude: ".noExl",
+            // 导出的Excel文档的名称
+            name: "Excel Document Name",
+            // Excel文件的名称
+            filename: "myExcelTable"
+        });
+    }
 </script>
 </html>

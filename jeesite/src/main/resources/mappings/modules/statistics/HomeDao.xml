@@ -5,13 +5,13 @@
 	<select id="homepageList" resultType="hashmap">
 		SELECT a.site_id, a.url, pageviews1, ip1, pageviews2, ip2
 		FROM
-		(SELECT site_id, url, count(*) pageviews1, count(DISTINCT ip) ip1
+		(SELECT site_id, url, count(1) pageviews1, count(DISTINCT ip) ip1
 		FROM statistics
 		WHERE time >  DATE_SUB(#{currentDate},INTERVAL 1 DAY)
 		AND time <![CDATA[ < ]]> #{currentDate}
 		GROUP BY site_id) a
 		LEFT JOIN
-		(SELECT site_id, url, count(*) pageviews2, count(DISTINCT ip) ip2
+		(SELECT site_id, url, count(1) pageviews2, count(DISTINCT ip) ip2
 		FROM statistics
 		WHERE time >  DATE_SUB(#{currentDate},INTERVAL 2 DAY)
 		AND time <![CDATA[ < ]]> DATE_SUB(#{currentDate},INTERVAL 1 DAY)

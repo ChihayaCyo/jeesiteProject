@@ -9,7 +9,7 @@
 	<select id="siteDetails" resultType="hashmap">
 		SELECT a.site_id, a.url, pageviews1, ip1, pageviews2, ip2
 		FROM
-		(SELECT site_id, url, count(*) pageviews1, count(DISTINCT ip) ip1
+		(SELECT site_id, url, count(1) pageviews1, count(DISTINCT ip) ip1
 		FROM statistics
 		WHERE time >  DATE_SUB(#{currentDate},INTERVAL 1 DAY)
 		AND time <![CDATA[ < ]]> #{currentDate}
@@ -24,7 +24,7 @@
 	</select>
 
 	<select id="overviewByDay" resultType="hashmap">
-		SELECT DATE_FORMAT(time,"%Y-%m-%d") timeDay, count(*) pageviews, count(DISTINCT ip) ip
+		SELECT DATE_FORMAT(time,"%Y-%m-%d") timeDay, count(1) pageviews, count(DISTINCT ip) ip
 		FROM statistics
 		WHERE site_id = #{siteId}
 		GROUP BY DATE_FORMAT(time,"%Y-%m-%d")
@@ -34,10 +34,10 @@
 	<select id="chartByDay" resultType="hashmap">
 		<choose>
 			<when test="day == 1 or day == -1">
-				SELECT DATE_FORMAT(time,"%H") timeDay, count(*) pageviews, count(DISTINCT ip) ip
+				SELECT DATE_FORMAT(time,"%H") timeDay, count(1) pageviews, count(DISTINCT ip) ip
 			</when>
 			<otherwise>
-				SELECT DATE_FORMAT(time,"%Y-%m-%d") timeDay, count(*) pageviews, count(DISTINCT ip) ip
+				SELECT DATE_FORMAT(time,"%Y-%m-%d") timeDay, count(1) pageviews, count(DISTINCT ip) ip
 			</otherwise>
 		</choose>
 		FROM statistics
@@ -52,6 +52,36 @@
 			</otherwise>
 		</choose>
 		AND site_id = #{siteId}
+		<choose>
+			<when test="day == 1 or day == -1">
+				GROUP BY DATE_FORMAT(time,"%H")
+			</when>
+			<otherwise>
+				GROUP BY DATE_FORMAT(time,"%Y-%m-%d")
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="chartByDayAllSite" resultType="hashmap">
+		<choose>
+			<when test="day == 1 or day == -1">
+				SELECT DATE_FORMAT(time,"%H") timeDay, count(1) pageviews, count(DISTINCT ip) ip
+			</when>
+			<otherwise>
+				SELECT DATE_FORMAT(time,"%Y-%m-%d") timeDay, count(1) pageviews, count(DISTINCT ip) ip
+			</otherwise>
+		</choose>
+		FROM statistics
+		<choose>
+			<when test="day == -1">
+				WHERE time >  DATE_SUB(DATE_SUB(#{currentDate},INTERVAL 3 DAY),INTERVAL #{day} DAY)
+				AND time <![CDATA[ < ]]> DATE_SUB(#{currentDate},INTERVAL 1 DAY)
+			</when>
+			<otherwise>
+				WHERE time >  DATE_SUB(#{currentDate},INTERVAL #{day} DAY)
+				AND time <![CDATA[ < ]]> #{currentDate}
+			</otherwise>
+		</choose>
 		<choose>
 			<when test="day == 1 or day == -1">
 				GROUP BY DATE_FORMAT(time,"%H")

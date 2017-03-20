@@ -28,7 +28,7 @@ public class SysEnvService {
 
 	public Browser getBrowserData(String siteId, Integer day) {
 
-		Browser browser = sysEnvDao.getBrowserData(siteId,"2016-11-19 00:00:00",day);
+		Browser browser = sysEnvDao.getBrowserData(siteId,"2017-03-20 00:00:00",day);
 		//java对象排序 似乎比js对象排序麻烦 js对象可以根据属性值直接进行排序
 		//另外 返回的js对象拆分成数组对象[{key:value},{},...]的形式后也能根据key-value进行排序
 		return browser;
@@ -37,7 +37,7 @@ public class SysEnvService {
 
 	public OS getOSData(String siteId, Integer day) {
 
-		OS browser = sysEnvDao.getOSData(siteId,"2016-11-19 00:00:00",day);
+		OS browser = sysEnvDao.getOSData(siteId,"2017-03-20 00:00:00",day);
 
 		return browser;
 

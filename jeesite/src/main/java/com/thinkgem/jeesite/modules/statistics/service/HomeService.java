@@ -25,7 +25,7 @@ public class HomeService{
 	HomeDao homeDao;
 	
 	public List<Map<String, String>> homepageList() {
-		return homeDao.homepageList("2016-11-19 00:00:00");
+		return homeDao.homepageList("2017-03-20 00:00:00");
 	}
 	
 }

@@ -29,7 +29,7 @@ public class SitesOverviewService{
 
 	public List<Map<String, String>> siteDetails(String siteId) {
 
-		return sitesOverviewDao.siteDetails(siteId,"2016-11-19 00:00:00");
+		return sitesOverviewDao.siteDetails(siteId,"2017-03-20 00:00:00");
 
 	}
 
@@ -41,7 +41,13 @@ public class SitesOverviewService{
 
 	public List<Map<String, String>> chartByDay(String siteId, Integer day) {
 
-		return sitesOverviewDao.chartByDay(siteId,"2016-11-19 00:00:00",day);
+		return sitesOverviewDao.chartByDay(siteId,"2017-03-20 00:00:00",day);
+
+	}
+
+	public List<Map<String, String>> chartByDayAllSite(Integer day) {
+
+		return sitesOverviewDao.chartByDayAllSite("2017-03-20 00:00:00",day);
 
 	}
 	

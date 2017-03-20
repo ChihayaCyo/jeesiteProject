@@ -65,4 +65,13 @@ public class SitesOverviewController{
 		return chartByDay;
 	}
 
+	@RequestMapping("/vue/chartByDayAllSite")
+	@ResponseBody
+	public List<Map<String, String>> chartByDayAllSite(Integer day) {
+
+		List<Map<String, String>> chartByDayAllSite = sitesOverviewService.chartByDayAllSite(day);
+
+		return chartByDayAllSite;
+	}
+
 }
